@@ -5,16 +5,14 @@
     <ng-container *ngIf="localBook.image; else noCoverLocal">
       <img [src]="localBook.image" class="cover" alt="cover" />
     </ng-container>
-    <ng-template #noCoverLocal
-      ><div class="placeholder">No photo</div></ng-template
-    >
+    <ng-template #noCoverLocal>
+      <div class="placeholder">No photo</div>
+    </ng-template>
   </div>
 
   <div class="right">
     <h2>{{ localBook.title }}</h2>
-    <small class="muted"
-      >by {{ localBook.authors?.join(", ") || "Unknown" }}</small
-    >
+    <small class="muted">by {{ localBook.authors?.join(", ") || "Unknown" }}</small>
     <p *ngIf="localBook.description" style="margin-top: 12px">
       {{ localBook.description }}
     </p>
@@ -30,16 +28,14 @@
     <ng-container *ngIf="apiBook.image; else noCoverApi">
       <img [src]="apiBook.image" class="cover" alt="cover" />
     </ng-container>
-    <ng-template #noCoverApi
-      ><div class="placeholder">No photo</div></ng-template
-    >
+    <ng-template #noCoverApi>
+      <div class="placeholder">No photo</div>
+    </ng-template>
   </div>
 
   <div class="right">
     <h2>{{ apiBook.title }}</h2>
-    <small class="muted"
-      >by {{ apiBook.authors?.join(", ") || "Unknown" }} (API)</small
-    >
+    <small class="muted">by {{ apiBook.authors?.join(", ") || "Unknown" }} (API)</small>
     <p *ngIf="apiBook.description" style="margin-top: 12px">
       {{ apiBook.description }}
     </p>
@@ -48,11 +44,7 @@
       <button class="btn btn-success" (click)="addApiBookToMyBooks()">
         Add to My Books
       </button>
-      <button
-        class="btn btn-primary"
-        style="margin-left: 8px"
-        (click)="goHome()"
-      >
+      <button class="btn btn-primary" style="margin-left: 8px" (click)="goHome()">
         Go Back Home
       </button>
     </div>
