@@ -1,0 +1,164 @@
+<div class="container py-4">
+  <!-- Search Bar -->
+  <div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+      <div class="input-group">
+        <input
+          #searchInput
+          type="text"
+          class="form-control"
+          placeholder="Search for books..."
+          (keyup.enter)="searchBooks(searchInput.value)"
+        />
+        <button
+          (click)="searchBooks(searchInput.value)"
+          class="btn btn-primary"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Books -->
+  <div *ngIf="!searchQuery">
+    <h3>My Books</h3>
+    <div class="row">
+      <div *ngIf="myBooks.length === 0" class="text-muted">
+        No books added yet.
+      </div>
+
+      <div class="col-md-3 mb-4" *ngFor="let book of myBooks">
+        <div class="card h-100">
+          <img
+            [src]="book.image"
+            *ngIf="book.image; else noImage"
+            class="card-img-top"
+          />
+          <ng-template #noImage>
+            <div
+              class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white"
+              style="height: 200px"
+            >
+              No Photo
+            </div>
+          </ng-template>
+
+          <div class="card-body">
+            <h5
+              class="card-title text-primary"
+              style="cursor: pointer"
+              (click)="viewBookDetails(book.id)"
+            >
+              {{ book.title }}
+            </h5>
+            <p class="card-text">{{ book.authors?.join(", ") }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discover / Popular -->
+    <h3 class="mt-5">Discover Books</h3>
+    <div class="row">
+      <div *ngIf="popularBooks.length === 0" class="text-muted">
+        Loading popular books…
+      </div>
+
+      <div class="col-md-3 mb-4" *ngFor="let book of popularBooks">
+        <div class="card h-100">
+          <img
+            [src]="book.image"
+            *ngIf="book.image; else noImage2"
+            class="card-img-top"
+          />
+          <ng-template #noImage2>
+            <div
+              class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white"
+              style="height: 200px"
+            >
+              No Photo
+            </div>
+          </ng-template>
+
+          <div class="card-body">
+            <h5
+              class="card-title text-primary"
+              style="cursor: pointer"
+              (click)="viewBookDetails(book.id)"
+            >
+              {{ book.title }}
+            </h5>
+            <p class="card-text">{{ book.authors?.join(", ") }}</p>
+          </div>
+          <div class="card-footer">
+            <button
+              (click)="addToMyBooks(book)"
+              class="btn btn-outline-success w-100"
+            >
+              Add to My Books
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Results -->
+<div *ngIf="searchQuery" class="mt-4">
+  <h3>Search Results for "{{ searchQuery }}"</h3>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Searching for books...</p>
+  </div>
+
+  <div *ngIf="!loading && searchResults.length === 0" class="alert alert-info">
+    No books found for "{{ searchQuery }}". Try a different search term.
+  </div>
+
+  <div class="row" *ngIf="searchResults.length > 0">
+    <div class="col-md-3 mb-4" *ngFor="let book of searchResults">
+      <div class="card h-100">
+        <img
+          [src]="book.image"
+          *ngIf="book.image; else noImage3"
+          class="card-img-top"
+          style="height: 200px; object-fit: cover"
+        />
+        <ng-template #noImage3>
+          <div
+            class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white"
+            style="height: 200px"
+          >
+            No Cover Available
+          </div>
+        </ng-template>
+
+        <div class="card-body d-flex flex-column">
+          <h5
+            class="card-title text-primary flex-grow-1"
+            style="cursor: pointer; min-height: 3em"
+            (click)="viewBookDetails(book.id)"
+          >
+            {{ book.title || "Untitled" }}
+          </h5>
+          <p class="card-text text-muted small">
+            {{ book.authors?.join(", ") || "Author not specified" }}
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-top-0">
+          <button
+            (click)="addToMyBooks(book)"
+            class="btn btn-outline-success w-100"
+          >
+            Add to My Books
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

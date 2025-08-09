@@ -1,0 +1,97 @@
+<h2>Admin — Manage My Books</h2>
+<small class="muted"
+  >Create, update and delete your local books (stored in this browser)</small
+>
+
+<div style="margin-top: 12px; max-width: 720px">
+  <div *ngIf="message" style="margin-bottom: 8px">{{ message }}</div>
+
+  <div class="form-row">
+    <label>Title</label><br />
+    <input
+      type="text"
+      [(ngModel)]="form.title"
+      name="title"
+      class="form-control"
+    />
+  </div>
+
+  <div class="form-row">
+    <label>Authors (comma-separated or leave as array)</label><br />
+    <input
+      type="text"
+      [(ngModel)]="form.authors"
+      name="authors"
+      class="form-control"
+      placeholder="Author 1, Author 2"
+    />
+  </div>
+
+  <div class="form-row">
+    <label>Image URL (optional)</label><br />
+    <input
+      type="text"
+      [(ngModel)]="form.image"
+      name="image"
+      class="form-control"
+    />
+  </div>
+
+  <div class="form-row">
+    <label>Description</label><br />
+    <textarea
+      [(ngModel)]="form.description"
+      name="description"
+      class="form-control"
+    ></textarea>
+  </div>
+
+  <div style="margin-top: 8px">
+    <button class="btn btn-primary" (click)="submit()">
+      {{ editingId ? "Save changes" : "Create book" }}
+    </button>
+    <a routerLink="/" class="btn btn-outline-secondary" style="margin-left: 8px"
+      >Home</a
+    >
+  </div>
+</div>
+
+<hr style="margin: 18px 0; opacity: 0.06" />
+
+<h3>Your Books</h3>
+<div *ngIf="books.length === 0">You have no books.</div>
+<div class="row" *ngIf="books.length > 0">
+  <div class="col-md-3 mb-4" *ngFor="let b of books">
+    <div class="card h-100">
+      <img [src]="b.image" *ngIf="b.image; else noCover" class="card-img-top" />
+      <ng-template #noCover
+        ><div
+          class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white"
+          style="height: 200px"
+        >
+          No Photo
+        </div></ng-template
+      >
+
+      <div class="card-body">
+        <h5
+          class="card-title text-primary"
+          style="cursor: pointer"
+          (click)="view(b)"
+        >
+          {{ b.title }}
+        </h5>
+        <p class="card-text">{{ b.authors?.join(", ") }}</p>
+      </div>
+
+      <div class="card-footer d-flex gap-2">
+        <button (click)="beginEdit(b)" class="btn btn-outline-primary w-50">
+          Edit
+        </button>
+        <button (click)="deleteBook(b.id)" class="btn btn-danger w-50">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
