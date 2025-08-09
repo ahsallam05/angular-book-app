@@ -26,14 +26,12 @@ export class BookDetailComponent {
       return;
     }
 
-    // first check local books
     const local = this.bookService.getMyBookById(id);
     if (local) {
       this.localBook = local;
       return;
     }
 
-    // else fetch from API
     this.loading = true;
     this.bookService.getApiBookById(id).subscribe({
       next: (b) => {
@@ -53,7 +51,6 @@ export class BookDetailComponent {
   addApiBookToMyBooks() {
     if (!this.apiBook) return;
     this.bookService.addMyBook(this.apiBook);
-    // maybe navigate to home to show it
     this.router.navigate(['/']);
   }
 }

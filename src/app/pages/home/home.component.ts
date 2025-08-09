@@ -60,12 +60,11 @@ export class HomeComponent implements OnInit {
   }
 
   addToMyBooks(book: Book) {
-    this.bookService.addMyBook(book); // addMyBook prevents duplicates by id
+    this.bookService.addMyBook(book);
     this.loadMyBooks();
   }
 
   viewBookDetails(id: string) {
-    // navigate to /book/:id. The BookDetail component checks local first then API.
     this.router.navigate(['/book', id]);
   }
 }

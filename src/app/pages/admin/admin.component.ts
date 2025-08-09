@@ -25,7 +25,6 @@ export class AdminComponent {
   ) {
     this.loadBooks();
 
-    // support ?edit=ID from Home
     const editParam = this.route.snapshot.queryParamMap.get('edit');
     if (editParam) {
       const b = this.bookService.getMyBookById(editParam);
@@ -39,8 +38,8 @@ export class AdminComponent {
 
   beginEdit(b: Book) {
     this.editingId = b.id;
-    this.form = { ...b }; // prefill
-    history.replaceState(null, '', '/admin'); // remove query param
+    this.form = { ...b };
+    history.replaceState(null, '', '/admin');
   }
 
   submit() {
@@ -48,7 +47,6 @@ export class AdminComponent {
       this.message = 'Title is required';
       return;
     }
-    // normalize authors: allow comma-separated string input or authors array
     if (typeof (this.form as any).authors === 'string') {
       (this.form as any).authors = (this.form as any).authors
         .split(',')

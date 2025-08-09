@@ -9,7 +9,6 @@ export class BookService {
 
   constructor(private http: HttpClient) {}
 
-  // ----- localStorage CRUD -----
   private readMyBooks(): Book[] {
     return JSON.parse(localStorage.getItem(this.myBooksKey) || '[]') as Book[];
   }
@@ -25,13 +24,11 @@ export class BookService {
   addMyBook(partial: Partial<Book>): Book {
     const books = this.readMyBooks();
 
-    // If an id exists and a book with same id already stored -> return existing (do not duplicate)
     if (partial.id) {
       const existing = books.find((b) => b.id === partial.id);
       if (existing) return existing;
     }
 
-    // Create new id if none provided (local book)
     const id = partial.id || `local-${Date.now()}`;
 
     const created: Book = {
@@ -65,7 +62,6 @@ export class BookService {
     return this.readMyBooks().find((b) => b.id === id);
   }
 
-  // ----- Google Books API (read-only) -----
   getPopularBooks(): Observable<Book[]> {
     return this.http
       .get<any>(
@@ -88,7 +84,6 @@ export class BookService {
       );
   }
 
-  // get a single API book by volume id
   getApiBookById(volumeId: string): Observable<Book> {
     return this.http
       .get<any>(
@@ -99,7 +94,6 @@ export class BookService {
       .pipe(map((it) => this.mapVolume(it)));
   }
 
-  // helper mapper
   private mapVolume(item: any): Book {
     const info = item.volumeInfo || item;
     const authors = info.authors || [];

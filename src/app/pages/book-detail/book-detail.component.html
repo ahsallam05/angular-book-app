@@ -1,6 +1,5 @@
 <div *ngIf="loading">Loading…</div>
 
-<!-- local book -->
 <div *ngIf="localBook" class="card detail">
   <div class="left">
     <ng-container *ngIf="localBook.image; else noCoverLocal">
@@ -26,7 +25,6 @@
   </div>
 </div>
 
-<!-- api book -->
 <div *ngIf="apiBook" class="card detail">
   <div class="left">
     <ng-container *ngIf="apiBook.image; else noCoverApi">
